@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:owner/Dashboard/show_employees_table.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Dashboard/home_page.dart';
 import 'Registration and Login/add_store_details.dart';
@@ -57,13 +52,14 @@ class MyApp extends StatelessWidget
           )
       ),
 
-      initialRoute: '/home',
+      initialRoute: '/employees',
 
       routes: {
         '/login': (context) => const Login(),
         '/signup': (context) => const SignUp(),
         '/add_store_details': (context) => const AddStoreDetails(),
         '/home': (context) => const HomePage(),
+        '/employees': (context) => const ShowEmployeesTable(),
       },
 
       onUnknownRoute: (RouteSettings settings)

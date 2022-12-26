@@ -944,7 +944,7 @@ class _Page4State extends State<Page4>
         onPressed: () async
         {
           final storageRef = FirebaseStorage.instance.ref(
-              'online gift store/${widget.GST_identification_number}'
+              '${widget.GST_identification_number}'
           );
 
 
@@ -1006,10 +1006,9 @@ class _Page4State extends State<Page4>
             "Store documents" : store_documents_url_list,
           };
 
-          FirebaseFirestore.instance.collection('online gift shop')
-              .doc(widget.GST_identification_number)
+          FirebaseFirestore.instance.collection(widget.GST_identification_number)
+              .doc('Store Details')
               .set(newShop);
-
 
           MotionToast snackbar = MotionToast.success(
             title:  Text("Successfully Added!"),
