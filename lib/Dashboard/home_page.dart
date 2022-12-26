@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -16,6 +17,12 @@ class _HomePageState extends State<HomePage>
 {
   GlobalKey<FormState> _key = GlobalKey<FormState>();
   TextEditingController _searchQuery = TextEditingController();
+
+  CollectionReference employees = FirebaseFirestore
+      .instance
+      .collection('Employees');
+
+
 
   @override
   Widget build(BuildContext context)
