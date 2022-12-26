@@ -1,0 +1,18 @@
+Container(
+
+          padding: const EdgeInsets.all(25),
+          margin: const EdgeInsets.all(25),
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Add store details", style: GoogleFonts.comfortaa(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 30,
+                ),),
+
+
+                                Image.network('https://cdn-icons-png.flaticon.com/128/9204/9204040.png',
+                                  height: 75, width: 75,),
