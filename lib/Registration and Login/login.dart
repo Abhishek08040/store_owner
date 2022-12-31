@@ -80,7 +80,6 @@ class _LoginCredentialsState extends State<LoginCredentials>
   {
 
     User? user = FirebaseAuth.instance.currentUser;
-    String initialRoute;
 
     if (user!=null)
     {
@@ -173,8 +172,6 @@ class _LoginCredentialsState extends State<LoginCredentials>
                               email: _emailController.text,
                               password: _passwordController.text,
                             );
-
-                            User? user = userCredential.user;
 
                             MotionToast snackbar = MotionToast.success(
                               title:  const Text("Logged in Successfully!"),
