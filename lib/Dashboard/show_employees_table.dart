@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-class ShowEmployeesTable extends StatefulWidget {
-  const ShowEmployeesTable({Key? key}) : super(key: key);
+class ShowEmployeesTable extends StatefulWidget
+{
+  final selectedDesignation;
+  const ShowEmployeesTable({Key? key,
+    this.selectedDesignation}) : super(key: key);
 
   @override
   State<ShowEmployeesTable> createState() => _ShowEmployeesTableState();
@@ -14,24 +17,26 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
 {
   CollectionReference employees = FirebaseFirestore
       .instance
-      .collection('10AAAAA0000A1Z6/Employees/Employees Details');
+      .collection('Employees');
 
   late EmployeesDataSource _employeesDataSource;
+
 
   @override
   Widget build(BuildContext context)
   {
-    return
-      FutureBuilder(
-        future: employees.get(),
+    return FutureBuilder(
+        future: widget.selectedDesignation.toString() == 'all' ?
+        employees.get() :
+        employees.where('Designation', isEqualTo: widget.selectedDesignation.toString()).get(),
+
+
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
         {
 
           if (snapshot.connectionState == ConnectionState.waiting)
           {
-            return Scaffold(
-                body: Center(child: CircularProgressIndicator())
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
 
@@ -39,9 +44,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
           {
             return Scaffold(
               body: DefaultTextStyle(
-                style: GoogleFonts.poppins(textStyle: TextStyle(
+                style: GoogleFonts.andikaNewBasic(textStyle: TextStyle(
                     color: Color(0xff403b58)),
-                  fontSize: 32,
+                  fontSize: 20,
                   fontWeight: FontWeight.w300,
                 ),
                 child: Center(
@@ -76,15 +81,15 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
               no++;
               employeeRow = snapshot.data.docs[i].data();
 
-              profilePicture = employeeRow['Profile Picture'];
+              profilePicture = employeeRow['Profile Picture'].toString();
               name = employeeRow['Name'];
-              gender = employeeRow['Gender'];
+              gender = employeeRow['Gender'].toString();
               designation = employeeRow['Designation'];
-              joiningDate = employeeRow['Joining Date'];
+              joiningDate = employeeRow['Joining Date'].toString();
               email = employeeRow['Email'];
-              phone = employeeRow['Phone'];
-              location = employeeRow['Location'];
-              salary = employeeRow['Salary'];
+              phone = employeeRow['Phone'].toString();
+              location = employeeRow['Location'].toString();
+              salary = employeeRow['Salary'] ?? 0;
 
               employeeList.add(Employee(
                   no,
@@ -102,124 +107,116 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
 
             _employeesDataSource = EmployeesDataSource(employees : employeeList);
 
-            return Scaffold(
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            return SingleChildScrollView(
 
-                  Expanded(
-                    child: SfDataGrid(
-                        source: _employeesDataSource,
-                        columnWidthMode: ColumnWidthMode.fill,
-                        headerGridLinesVisibility: GridLinesVisibility.horizontal,
-                        columns: [
-                          GridColumn(
-                              columnName: 'no',
-                              width: 60,
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 12.0),
-                                alignment: Alignment.center,
-                                child: const Text('No', overflow: TextOverflow.visible,
-                                  style: TextStyle(color: Colors.white),),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Profile Picture',
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Profile Picture', overflow: TextOverflow.visible,
-                                  style: TextStyle(color: Colors.white),),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Name',
-                              width: 150,
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Name', overflow: TextOverflow.visible,
-                                  style: TextStyle(color: Colors.white),),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Gender',
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Gender', overflow: TextOverflow.visible,
-                                  style: TextStyle(color: Colors.white),),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Designation',
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Designation', overflow: TextOverflow.visible,
-                                    style: TextStyle(color: Colors.white)),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Joining Date',
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Joining Date', overflow: TextOverflow.visible,
-                                    style: TextStyle(color: Colors.white)),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Email',
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Email', overflow: TextOverflow.visible,
-                                  style: TextStyle(color: Colors.white),),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Phone',
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Phone', overflow: TextOverflow.visible,
-                                    style: TextStyle(color: Colors.white)),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Location',
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Location', overflow: TextOverflow.visible,
-                                    style: TextStyle(color: Colors.white)),
-                              )
-                          ),
-                          GridColumn(
-                              columnName: 'Salary',
-                              label: Container(
-                                color: const Color.fromARGB(255, 49, 175, 212),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                child: Text('Salary', overflow: TextOverflow.visible,
-                                    style: TextStyle(color: Colors.white)),
-                              )
-                          ),
-                        ]
+              child: SfDataGrid(
+                  source: _employeesDataSource,
+                  columnWidthMode: ColumnWidthMode.auto,
+                  headerGridLinesVisibility: GridLinesVisibility.horizontal,
+                  columns: [
+                    GridColumn(
+                        columnName: 'no',
+                        width: 60,
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 12.0),
+                          alignment: Alignment.center,
+                          child: const Text('No', overflow: TextOverflow.visible,
+                            style: TextStyle(color: Colors.white),),
+                        )
                     ),
-                  ),
-                ],
+                    GridColumn(
+                        columnName: 'Profile\nPicture',
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Profile Picture', overflow: TextOverflow.visible,
+                            style: TextStyle(color: Colors.white),),
+                        )
+                    ),
+                    GridColumn(
+                        columnName: 'Name',
+                        width: 150,
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Name', overflow: TextOverflow.visible,
+                            style: TextStyle(color: Colors.white),),
+                        )
+                    ),
+                    GridColumn(
+                        columnName: 'Gender',
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Gender', overflow: TextOverflow.visible,
+                            style: TextStyle(color: Colors.white),),
+                        )
+                    ),
+                    GridColumn(
+                        columnName: 'Designation',
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Designation', overflow: TextOverflow.visible,
+                              style: TextStyle(color: Colors.white)),
+                        )
+                    ),
+                    GridColumn(
+                        columnName: 'Joining Date',
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Joining Date', overflow: TextOverflow.visible,
+                              style: TextStyle(color: Colors.white)),
+                        )
+                    ),
+                    GridColumn(
+                        columnName: 'Email',
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Email', overflow: TextOverflow.visible,
+                            style: TextStyle(color: Colors.white),),
+                        )
+                    ),
+                    GridColumn(
+                        columnName: 'Phone',
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Phone', overflow: TextOverflow.visible,
+                              style: TextStyle(color: Colors.white)),
+                        )
+                    ),
+                    GridColumn(
+                        columnName: 'Location',
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Location', overflow: TextOverflow.visible,
+                              style: TextStyle(color: Colors.white)),
+                        )
+                    ),
+                    GridColumn(
+                        columnName: 'Salary',
+                        label: Container(
+                          color: const Color.fromARGB(255, 49, 175, 212),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Text('Salary', overflow: TextOverflow.visible,
+                              style: TextStyle(color: Colors.white)),
+                        )
+                    ),
+                  ]
               ),
             );
           }
@@ -243,6 +240,7 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
     );
   }
 }
+
 
 class EmployeesDataSource extends DataGridSource
 {
@@ -279,9 +277,14 @@ class EmployeesDataSource extends DataGridSource
         {
           return Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 18.0),
-            child: dataGridCell.columnName == 'Profile Picture' ? 
-            Image.network(dataGridCell.value) :
+            child: dataGridCell.value == 'null' ? const Text('NA') :
+
+            dataGridCell.columnName == 'Profile Picture' ?
+              dataGridCell.value == 'null' ? const Text('NA') : Image.network(dataGridCell.value) :
+
+            dataGridCell.columnName == 'Salary' ?
+              dataGridCell.value == 0 ? const Text('NA') :  Text(dataGridCell.value.toString()) :
+
             Text(dataGridCell.value.toString()),
           );
         }).toList()

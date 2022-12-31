@@ -1,9 +1,16 @@
 import 'package:curved_drawer_fork/curved_drawer_fork.dart';
 import 'package:flutter/material.dart';
 
-class OwnerDrawer extends StatelessWidget {
-  const OwnerDrawer({Key? key}) : super(key: key);
+class OwnerDrawer extends StatefulWidget
+{
+  OwnerDrawer({Key? key,}) : super(key: key);
 
+  @override
+  State<OwnerDrawer> createState() => _OwnerDrawerState();
+}
+
+class _OwnerDrawerState extends State<OwnerDrawer>
+{
   @override
   Widget build(BuildContext context)
   {
@@ -26,9 +33,16 @@ class OwnerDrawer extends StatelessWidget {
 
       ],
 
-      onTap: (index)
+      onTap: (index) async
       {
-        //Handle button tap
+        if (index == 0)
+          {
+            Navigator.pushNamedAndRemoveUntil(context, "/home" , (Route route) => false);
+          }
+        else if (index == 1)
+          {
+            Navigator.pushNamedAndRemoveUntil(context, "/supplier" , (Route route) => false);
+          }
       },
     );
   }

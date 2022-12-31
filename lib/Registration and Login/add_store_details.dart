@@ -1,7 +1,9 @@
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validators/validators.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:file_picker/file_picker.dart';
@@ -217,10 +219,20 @@ class _Page2State extends State<Page2>
   TextEditingController _storePhone = new TextEditingController();
   TextEditingController _storeLoc = new TextEditingController();
 
+  void setOwnerName() async
+  {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _storeOwnerName.text = prefs.getString('owner name')!;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context)
   {
+    setOwnerName();
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(),
@@ -266,14 +278,14 @@ class _Page2State extends State<Page2>
                         ),
 
                         child: TextFormField(
-
                           controller: _storeOwnerName,
+                          readOnly: true,
 
                           validator: (value)
                           {
                             if (value!.isEmpty)
                             {
-                              return "Please enter the owner's name";
+                              return "Error!";
                             }
                           },
 
@@ -488,7 +500,6 @@ class _Page3State extends State<Page3>
 {
 
   GlobalKey<FormState> _storeDetailsPage3 = GlobalKey<FormState>();
-
   TextEditingController _GSTIdentificationNumber = new TextEditingController();
   TextEditingController _UPI_ID = new TextEditingController();
   List<PlatformFile> document_files_added = <PlatformFile>[];
@@ -551,9 +562,9 @@ class _Page3State extends State<Page3>
                               return "Please enter the GST Identification number";
                             }
                             else if (!RegExp(r'^[0-9]{2}[A-Z0-9]{10}[0-9]{1}Z[A-Z0-9]{1}$').hasMatch(value))
-                              {
-                                return 'Invalid GST Identification number';
-                              }
+                            {
+                              return 'Invalid GST Identification number';
+                            }
                           },
 
                           decoration: const InputDecoration(
@@ -706,11 +717,9 @@ class _Page3State extends State<Page3>
                 contact_number : widget.contact_number.toString(),
                 email_address : widget.email_address.toString(),
                 store_location : widget.store_location.toString(),
-
                 GST_identification_number : _GSTIdentificationNumber.text.toString(),
                 upi_id : _UPI_ID.text.toString(),
                 document_files_added : document_files_added,
-
               );
             }));
           }
@@ -761,7 +770,7 @@ class Page4 extends StatefulWidget
 class _Page4State extends State<Page4>
 {
 
-  List<PlatformFile> store_pictures = <PlatformFile>[];
+  List<PlatformFile> storePictures = <PlatformFile>[];
 
   @override
   Widget build(BuildContext context)
@@ -793,11 +802,11 @@ class _Page4State extends State<Page4>
 
                 SizedBox(height: 18,),
 
-                store_pictures.length > 0 ?
+                storePictures.length > 0 ?
                 GFItemsCarousel(
                   itemHeight: 400,
                   rowCount: 3,
-                  children: store_pictures.map(
+                  children: storePictures.map(
                         (store_image) {
                       return Container(
 
@@ -822,7 +831,7 @@ class _Page4State extends State<Page4>
                               {
                                 // delete
 
-                                store_pictures.remove(store_image);
+                                storePictures.remove(store_image);
 
                                 setState(()
                                 {
@@ -876,7 +885,7 @@ class _Page4State extends State<Page4>
                                     );
 
                                     if (result == null) return;
-                                    store_pictures += result.files;
+                                    storePictures += result.files;
                                     setState(()
                                     {
 
@@ -904,7 +913,7 @@ class _Page4State extends State<Page4>
 
                 SizedBox(height: 18,),
 
-                store_pictures.length > 0 ?
+                storePictures.length > 0 ?
                 IconButton(
                   iconSize: 40,
                   splashRadius: 40,
@@ -922,7 +931,7 @@ class _Page4State extends State<Page4>
                     );
 
                     if (result == null) return;
-                    store_pictures += result.files;
+                    storePictures += result.files;
                     setState(()
                     {
 
@@ -943,72 +952,84 @@ class _Page4State extends State<Page4>
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async
         {
-          final storageRef = FirebaseStorage.instance.ref(
-              '${widget.GST_identification_number}'
-          );
+          final storageRef = FirebaseStorage.instance.ref('Store data/${widget.GST_identification_number}');
+
+          final storeLogoRef = storageRef.child('logo.png');
+          storeLogoRef.putData(widget.store_logo, SettableMetadata(
+            contentType: "image/jpeg",
+          ));
+          String storeLogoUrl = await storeLogoRef.getDownloadURL();
 
 
-          final image_ref = storageRef.child('logo.png');
-          image_ref.putData(widget.store_logo);
-          String store_logo_url = await image_ref.getDownloadURL();
-
-
-          final store_documents_ref = storageRef.child('store documents');
-          List<String> store_documents_url_list = <String>[];
+          final storeDocumentsRef = storageRef.child('store documents');
+          List<String> storeDocumentsUrlList = <String>[];
 
           for (int i = 0; i < widget.document_files_added.length; i++)
           {
-            TaskSnapshot uploaded_docs =  await store_documents_ref
+            TaskSnapshot uploadedDocs =  await storeDocumentsRef
                 .child('${widget.document_files_added[i].name}')
                 .putData(widget.document_files_added[i].bytes!);
 
-            if (uploaded_docs.state == TaskState.success)
+            if (uploadedDocs.state == TaskState.success)
               {
-                String store_documents_url = await store_documents_ref
+                String storeDocumentsUrl = await storeDocumentsRef
                     .child('${widget.document_files_added[i].name}')
                     .getDownloadURL();
 
-                store_documents_url_list.add(store_documents_url);
+                storeDocumentsUrlList.add(storeDocumentsUrl);
               }
           }
 
 
-          final store_pictures_ref = storageRef.child('store pictures');
-          List<String> store_pictures_url_list = <String>[];
+          final storePicturesRef = storageRef.child('store pictures');
+          List<String> storePicturesUrlList = <String>[];
 
-          for (int i = 0; i < store_pictures.length; i++)
+          for (int i = 0; i < storePictures.length; i++)
           {
-            TaskSnapshot uploaded_pictures = await store_pictures_ref
-                .child('${store_pictures[i].name}')
-                .putData(store_pictures[i].bytes!);
+            TaskSnapshot uploadedPictures = await storePicturesRef
+                .child(storePictures[i].name)
+                .putData(storePictures[i].bytes!, SettableMetadata(
+              contentType: "image/jpeg",
+            ));
 
-            if (uploaded_pictures.state == TaskState.success)
+            if (uploadedPictures.state == TaskState.success)
               {
-                String store_pictures_url = await store_pictures_ref
-                    .child('${store_pictures[i].name}')
+                String storePicturesUrl = await storePicturesRef
+                    .child('${storePictures[i].name}')
                     .getDownloadURL();
 
-                store_pictures_url_list.add(store_pictures_url);
+                storePicturesUrlList.add(storePicturesUrl.substring(0, storePicturesUrl.length-43));
               }
           }
 
           Map <String, dynamic> newShop =
           {
             "Store name" : widget.store_name,
-            "Store logo" : store_logo_url,
+            "Store logo" : storeLogoUrl.substring(0, storeLogoUrl.length-43),
             "Owner's name" : widget.owner_name,
             "Contact no" : widget.contact_number,
             "Email" : widget.email_address,
             "Location" : widget.store_location,
             "GST Identification No" : widget.GST_identification_number,
             "UPI ID" : widget.upi_id,
-            "Store pictures" : store_pictures_url_list,
-            "Store documents" : store_documents_url_list,
+            "Store pictures" : storePicturesUrlList,
+            "Store documents" : storeDocumentsUrlList,
           };
 
-          FirebaseFirestore.instance.collection(widget.GST_identification_number)
-              .doc('Store Details')
+          Map <String, dynamic> shopGSTIN =
+          {
+            "GST Identification No" : widget.GST_identification_number,
+          };
+
+
+          FirebaseFirestore.instance.collection('Stores')
+              .doc(widget.GST_identification_number)
               .set(newShop);
+
+          FirebaseFirestore.instance.collection('Employees')
+              .doc(FirebaseAuth.instance.currentUser?.email!)
+              .update(shopGSTIN);
+
 
           MotionToast snackbar = MotionToast.success(
             title:  Text("Successfully Added!"),

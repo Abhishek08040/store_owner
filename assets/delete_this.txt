@@ -13,6 +13,9 @@ Container(
                   fontSize: 30,
                 ),),
 
+hero -> load table -> add staff
+
+10AAAAA0000A1Z6
 
 Profile Picture
 Name
@@ -23,5 +26,7 @@ Email
 Phone
 Location
 Salary int
+
+firebase hosting:channel:deploy preview_name
 
 
