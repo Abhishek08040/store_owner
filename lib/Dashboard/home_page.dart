@@ -6,7 +6,6 @@ import 'package:owner/Dashboard/show_employees_table.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:app_popup_menu/app_popup_menu.dart';
 import '../drawer.dart';
 
 class HomePage extends StatefulWidget
@@ -22,8 +21,6 @@ class _HomePageState extends State<HomePage>
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final TextEditingController _searchQuery = TextEditingController();
   User? user = FirebaseAuth.instance.currentUser;
-
-  late String GSTIdentificationNumber;
 
   String email = '';
   String selectedDesignation = 'all';
@@ -49,26 +46,6 @@ class _HomePageState extends State<HomePage>
     super.dispose();
   }
 
-  void setGSTIdentificationNumber() async
-  {
-    FirebaseFirestore
-        .instance
-        .collection('Employees')
-        .where("Email",isEqualTo: email)
-        .get()
-        .then((value)
-    async {
-      String gst = value.docs.single.data()['GST Identification No'];
-
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('gst', gst);
-
-      setState(() {
-        GSTIdentificationNumber = gst;
-      });
-    });
-  }
-
   CollectionReference employees = FirebaseFirestore
       .instance
       .collection('Employees');
@@ -79,8 +56,6 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context)
   {
-
-    setGSTIdentificationNumber();
 
     FirebaseFirestore
         .instance
@@ -172,7 +147,7 @@ class _HomePageState extends State<HomePage>
 
                         },
 
-                        child: Icon(Icons.notifications, size: 30,)
+                        child: const Icon(Icons.notifications, size: 30,)
                     ),
 
                     Column(
@@ -184,7 +159,7 @@ class _HomePageState extends State<HomePage>
                         isImageLoaded ? Image.network(
                           display_photo_url,
                           height: 50, width: 50,
-                        ) : CircularProgressIndicator(),
+                        ) : const CircularProgressIndicator(),
 
                         Text(name, style: GoogleFonts.andikaNewBasic(),),
 
@@ -226,8 +201,7 @@ class _HomePageState extends State<HomePage>
                                       {
                                         FirebaseAuth.instance.signOut();
                                         final prefs = await SharedPreferences.getInstance();
-                                        final success1 = await prefs.remove('owner name');
-                                        final success2 = await prefs.remove('gst');
+                                        await prefs.remove('owner name');
                                         Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                                       },
                                     ),
@@ -245,7 +219,7 @@ class _HomePageState extends State<HomePage>
 
                         children: [
 
-                          Icon(Icons.logout, size: 30,),
+                          const Icon(Icons.logout, size: 30,),
 
                           Text('log out', style: GoogleFonts.andikaNewBasic(),),
 
@@ -581,7 +555,6 @@ class _HomePageState extends State<HomePage>
                                                     );
                                                   }));
                                                 },
-                                                child: const Icon(Icons.open_in_full_outlined, size: 25,),
                                                 style: ButtonStyle(
                                                   backgroundColor: MaterialStateProperty.all(
                                                     Colors.pink,
@@ -592,6 +565,7 @@ class _HomePageState extends State<HomePage>
                                                       )
                                                   ),
                                                 ),
+                                                child: const Icon(Icons.open_in_full_outlined, size: 25,),
                                               ),
                                             ),
                                           ),
@@ -619,14 +593,14 @@ class _HomePageState extends State<HomePage>
                                         if (!snapshot.hasData || snapshot.data.docs.length < 1)
                                         {
                                           return DefaultTextStyle(
-                                            style: GoogleFonts.poppins(textStyle: TextStyle(
+                                            style: GoogleFonts.andikaNewBasic(textStyle: const TextStyle(
                                                 color: Color(0xff403b58)),
                                               fontSize: 20,
                                               fontWeight: FontWeight.w300,
                                             ),
 
-                                            child: Center(
-                                              child: Text("No employees found!",
+                                            child: const Center(
+                                              child: Text("No Employees Found!",
                                               ),
                                             ),
                                           );
@@ -693,7 +667,7 @@ class _HomePageState extends State<HomePage>
                                                       width: 60,
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                                         alignment: Alignment.center,
                                                         child: const Text('No', overflow: TextOverflow.visible,
                                                           style: TextStyle(color: Colors.white),),
@@ -703,9 +677,9 @@ class _HomePageState extends State<HomePage>
                                                       columnName: 'Profile\nPicture',
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Profile Picture', overflow: TextOverflow.visible,
+                                                        child: const Text('Profile Picture', overflow: TextOverflow.visible,
                                                           style: TextStyle(color: Colors.white),),
                                                       )
                                                   ),
@@ -714,9 +688,9 @@ class _HomePageState extends State<HomePage>
                                                       width: 150,
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Name', overflow: TextOverflow.visible,
+                                                        child: const Text('Name', overflow: TextOverflow.visible,
                                                           style: TextStyle(color: Colors.white),),
                                                       )
                                                   ),
@@ -724,9 +698,9 @@ class _HomePageState extends State<HomePage>
                                                       columnName: 'Gender',
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Gender', overflow: TextOverflow.visible,
+                                                        child: const Text('Gender', overflow: TextOverflow.visible,
                                                           style: TextStyle(color: Colors.white),),
                                                       )
                                                   ),
@@ -734,9 +708,9 @@ class _HomePageState extends State<HomePage>
                                                       columnName: 'Designation',
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Designation', overflow: TextOverflow.visible,
+                                                        child: const Text('Designation', overflow: TextOverflow.visible,
                                                             style: TextStyle(color: Colors.white)),
                                                       )
                                                   ),
@@ -744,9 +718,9 @@ class _HomePageState extends State<HomePage>
                                                       columnName: 'Joining Date',
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Joining Date', overflow: TextOverflow.visible,
+                                                        child: const Text('Joining Date', overflow: TextOverflow.visible,
                                                             style: TextStyle(color: Colors.white)),
                                                       )
                                                   ),
@@ -754,9 +728,9 @@ class _HomePageState extends State<HomePage>
                                                       columnName: 'Email',
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Email', overflow: TextOverflow.visible,
+                                                        child: const Text('Email', overflow: TextOverflow.visible,
                                                           style: TextStyle(color: Colors.white),),
                                                       )
                                                   ),
@@ -764,9 +738,9 @@ class _HomePageState extends State<HomePage>
                                                       columnName: 'Phone',
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Phone', overflow: TextOverflow.visible,
+                                                        child: const Text('Phone', overflow: TextOverflow.visible,
                                                             style: TextStyle(color: Colors.white)),
                                                       )
                                                   ),
@@ -774,9 +748,9 @@ class _HomePageState extends State<HomePage>
                                                       columnName: 'Location',
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Location', overflow: TextOverflow.visible,
+                                                        child: const Text('Location', overflow: TextOverflow.visible,
                                                             style: TextStyle(color: Colors.white)),
                                                       )
                                                   ),
@@ -784,9 +758,9 @@ class _HomePageState extends State<HomePage>
                                                       columnName: 'Salary',
                                                       label: Container(
                                                         color: const Color.fromARGB(255, 49, 175, 212),
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                                         alignment: Alignment.center,
-                                                        child: Text('Salary', overflow: TextOverflow.visible,
+                                                        child: const Text('Salary', overflow: TextOverflow.visible,
                                                             style: TextStyle(color: Colors.white)),
                                                       )
                                                   ),
