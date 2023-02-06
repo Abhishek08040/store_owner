@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:owner/Dashboard/add_employee.dart';
 import 'package:owner/Dashboard/show_employees_table.dart';
+import 'package:owner/Reports%20and%20Analytics/most_sold_products.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,6 +9,7 @@ import 'Dashboard/home_page.dart';
 import 'Registration and Login/add_store_details.dart';
 import 'Registration and Login/login.dart';
 import 'Registration and Login/sign_up.dart';
+import 'Reports and Analytics/inventory.dart';
 import 'Supplier/supplier_page.dart';
 
 
@@ -65,6 +67,9 @@ class MyApp extends StatelessWidget
         '/supplier': (context) => const SupplierPage(),
         '/employees': (context) => const ShowEmployeesTable(),
         '/add_an_employee': (context) => const AddEmployee(),
+        '/most_sold_products': (context) => const MostSoldProducts(),
+        '/inventory': (context) => const Inventory(),
+
       },
 
       onUnknownRoute: (RouteSettings settings)
