@@ -4,16 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:owner/global_variables.dart';
 
 
-class UnsoldProducts extends StatefulWidget {
-  const UnsoldProducts({Key? key}) : super(key: key);
+class NotSoldProducts extends StatefulWidget {
+  const NotSoldProducts({Key? key}) : super(key: key);
 
   @override
-  State<UnsoldProducts> createState() => _UnsoldProductsState();
+  State<NotSoldProducts> createState() => _NotSoldProductsState();
 }
 
-class _UnsoldProductsState extends State<UnsoldProducts>
+class _NotSoldProductsState extends State<NotSoldProducts>
 {
-  List<Product> listOfUnsoldProducts = [];
+  List<Product> listOfNotSoldProducts = [];
 
 
   @override
@@ -25,13 +25,14 @@ class _UnsoldProductsState extends State<UnsoldProducts>
       productsPurchased.add(element.productID);
     }
 
-    listOfUnsoldProducts =
+    listOfNotSoldProducts =
         listOfAllProducts.filter((element) => !productsPurchased.contains(element.productID))
     .toList();
 
 
+
     return Scaffold(
-      body: listOfUnsoldProducts.isEmpty ?
+      body: listOfNotSoldProducts.isEmpty ?
 
       Center(
         child: Text('No products found!', style: GoogleFonts.comfortaa(
@@ -47,7 +48,7 @@ class _UnsoldProductsState extends State<UnsoldProducts>
           SizedBox(
             width: 600,
 
-            child: Text('Unsold products:', style: GoogleFonts.andikaNewBasic(
+            child: Text('Not sold products:', style: GoogleFonts.andikaNewBasic(
               fontWeight: FontWeight.w600,
               fontSize: 20,
             ),),
@@ -56,7 +57,7 @@ class _UnsoldProductsState extends State<UnsoldProducts>
           Expanded(
 
             child: ListView.builder(
-                itemCount: listOfUnsoldProducts.length,
+                itemCount: listOfNotSoldProducts.length,
                 itemBuilder: (BuildContext context, int index)
                 {
                   return Center(
@@ -79,7 +80,7 @@ class _UnsoldProductsState extends State<UnsoldProducts>
                           Center(
                             child: VxBox(
                               child: Image.network(
-                                listOfUnsoldProducts[index].productPicture,
+                                listOfNotSoldProducts[index].productPicture,
                               ),
                             ).rounded.white
                                 .square(160)
@@ -93,7 +94,7 @@ class _UnsoldProductsState extends State<UnsoldProducts>
 
                             children: [
 
-                              Text(listOfUnsoldProducts[index].productName,
+                              Text(listOfNotSoldProducts[index].productName,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: GoogleFonts.andikaNewBasic(
@@ -101,7 +102,7 @@ class _UnsoldProductsState extends State<UnsoldProducts>
                                 ),),
 
 
-                              Text(listOfUnsoldProducts[index].productDescription,
+                              Text(listOfNotSoldProducts[index].productDescription,
                                 overflow: TextOverflow.visible,
                                 maxLines: 1,
                                 style: GoogleFonts.andikaNewBasic(
@@ -113,7 +114,7 @@ class _UnsoldProductsState extends State<UnsoldProducts>
 
                               Row(
                                 children: [
-                                  for (int i = 0; i < listOfUnsoldProducts[index].productRating; i++)
+                                  for (int i = 0; i < listOfNotSoldProducts[index].productRating; i++)
                                     Text(' ★ ', style: GoogleFonts.andikaNewBasic(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
@@ -123,7 +124,7 @@ class _UnsoldProductsState extends State<UnsoldProducts>
                               ),
 
 
-                              Text("₹ ${listOfUnsoldProducts[index].productPrice}",
+                              Text("₹ ${listOfNotSoldProducts[index].productPrice}",
                                 style: GoogleFonts.andikaNewBasic(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -136,14 +137,14 @@ class _UnsoldProductsState extends State<UnsoldProducts>
                                 child: Row(
                                   children: [
 
-                                    Text("Quantity: ${listOfUnsoldProducts[index].totalQuantity}",
+                                    Text("Quantity: ${listOfNotSoldProducts[index].totalQuantity}",
                                       style: GoogleFonts.andikaNewBasic(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: Vx.blue900
                                       ),).px2(),
 
-                                    Text("Quantity sold: ${listOfUnsoldProducts[index].quantitySold}",
+                                    Text("Quantity sold: ${listOfNotSoldProducts[index].quantitySold}",
                                       style: GoogleFonts.andikaNewBasic(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,

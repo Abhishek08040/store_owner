@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:owner/Reports%20and%20Analytics/least_sold_products.dart';
-import 'package:owner/Reports%20and%20Analytics/unsold_products.dart';
+import 'package:owner/Reports%20and%20Analytics/not_sold_products.dart';
 import 'package:owner/global_variables.dart';
 import 'all_products.dart';
 import 'low_stock_products.dart';
@@ -310,7 +310,7 @@ class _InventoryState extends State<Inventory>
                   {
                     Navigator.push(context, MaterialPageRoute(builder: (context)
                     {
-                      return const UnsoldProducts();
+                      return const NotSoldProducts();
                     })).then((value) { setState(() {});});
                   },
 
