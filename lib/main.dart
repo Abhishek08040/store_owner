@@ -17,16 +17,43 @@ void main() async
 {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+  // await Firebase.initializeApp(
+  //   options: const FirebaseOptions(
+  //       apiKey: "AIzaSyAJqMebJHcXRYo7tVwpjx8YmoNrBhmVxQs",
+  //       authDomain: "online-gift-store-bb0d8.firebaseapp.com",
+  //       projectId: "online-gift-store-bb0d8",
+  //       storageBucket: "online-gift-store-bb0d8.appspot.com",
+  //       messagingSenderId: "169940591133",
+  //       appId: "1:169940591133:web:89cca5795c0cee26865cf4",
+  //       measurementId: "G-PGRGZQ30G1"
+  //   )
+
+
+ await Firebase.initializeApp(
     options: const FirebaseOptions(
-        apiKey: "AIzaSyAJqMebJHcXRYo7tVwpjx8YmoNrBhmVxQs",
-        authDomain: "online-gift-store-bb0d8.firebaseapp.com",
-        projectId: "online-gift-store-bb0d8",
+        apiKey: "AIzaSyA5_Ls7_puwbff3XBtZrwXRZXOnoax4eF8",
+        authDomain: "online-gift-shop-project.firebaseapp.com",
+        databaseURL: "https://online-gift-shop-project-default-rtdb.firebaseio.com",
+        projectId: "online-gift-shop-project",
         storageBucket: "online-gift-store-bb0d8.appspot.com",
-        messagingSenderId: "169940591133",
-        appId: "1:169940591133:web:89cca5795c0cee26865cf4",
-        measurementId: "G-PGRGZQ30G1"
+        messagingSenderId: "318114597835",
+        appId: "1:318114597835:web:5809ff877b1fd47db0844e",
+        measurementId: "G-QNVHZ8M248"
     )
+
+  // await Firebase.initializeApp(
+  //       options: const FirebaseOptions(
+  //           apiKey: "AIzaSyD0Ic4vZej96SujRl0d3r6SE2S5MhdbUzM",
+  //           authDomain: "online-gift-shop2.firebaseapp.com",
+  //           projectId: "online-gift-shop2",
+  //           storageBucket: "online-gift-shop2.appspot.com",
+  //           messagingSenderId: "802005617416",
+  //           appId: "1:802005617416:web:54c241ecd24569ba3a3abd",
+  //           measurementId: "G-7S2XX3HE62"
+  //       )
+
+
+
   );
 
   setPathUrlStrategy();
@@ -67,7 +94,6 @@ class MyApp extends StatelessWidget
         '/supplier': (context) => const SupplierPage(),
         '/employees': (context) => const ShowEmployeesTable(),
         '/add_an_employee': (context) => const AddEmployee(),
-        '/most_sold_products': (context) => const MostSoldProducts(),
         '/inventory': (context) => const Inventory(),
 
       },

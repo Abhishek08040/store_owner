@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:owner/Reports%20and%20Analytics/least_sold_products.dart';
+import 'package:owner/Reports%20and%20Analytics/unsold_products.dart';
 import 'package:owner/global_variables.dart';
 import 'all_products.dart';
 import 'low_stock_products.dart';
+import 'most_sold_products.dart';
 import 'out_of_stock_products.dart';
 
 
@@ -17,17 +20,49 @@ class Inventory extends StatefulWidget {
 class _InventoryState extends State<Inventory>
 {
 
+  bool isDataGenerated = false;
+
   @override
   Widget build(BuildContext context)
   {
+    generateData();
+    listOfMostSoldProducts.sort((b, a) => a.quantitySold.compareTo(b.quantitySold));
+
     var allProductsCollection = FirebaseFirestore
         .instance
         .collection('Products');
 
-    allProductsCollection.get().then((value)
+    allProductsCollection.get().then((product)
     {
       setState(() {
-        totalProductsInInventoryCount = value.docs.length;
+
+        listOfAllProducts.clear();
+
+        for (var doc in product.docs)
+        {
+          Map item = doc.data();
+
+          String productID = item['StockCode'].toString();
+          String productPicture = item['Picture'].toString();
+          String productName = item['Name'].toString();
+          num productPrice = item['UnitPrice'];
+          num productRating = 3;
+          String productDescription = item['Description'].toString();
+          num totalQuantity = item['Quantity'];
+
+          listOfAllProducts.add(Product(
+            productID,
+            productPicture,
+            productName,
+            productPrice,
+            productRating,
+            productDescription,
+            0,
+            totalQuantity,
+          ));
+
+        }
+
       });
     });
 
@@ -37,27 +72,87 @@ class _InventoryState extends State<Inventory>
         .where('Quantity', isLessThanOrEqualTo: 10)
         .where('Quantity', isGreaterThan: 0);
 
-    lowStockProductsCollection.get().then((value)
+    lowStockProductsCollection.get().then((product)
     {
       setState(() {
-        lowStockProductsCount = value.docs.length;
+
+        listOfLowStockProducts.clear();
+
+        for (var doc in product.docs)
+        {
+          Map item = doc.data();
+
+          String productID = item['StockCode'].toString();
+          String productPicture = item['Picture'].toString();
+          String productName = item['Name'].toString();
+          num productPrice = item['UnitPrice'];
+          num productRating = 3;
+          String productDescription = item['Description'].toString();
+          num totalQuantity = item['Quantity'];
+
+          listOfLowStockProducts.add(Product(
+            productID,
+            productPicture,
+            productName,
+            productPrice,
+            productRating,
+            productDescription,
+            0,
+            totalQuantity,
+          ));
+
+        }
+
+
       });
     });
+
 
     var outOfStockProductsCollection = FirebaseFirestore
         .instance
         .collection('Products')
         .where('Quantity', isEqualTo: 0);
 
-    outOfStockProductsCollection.get().then((value)
+    outOfStockProductsCollection.get()
+        .then((product)
     {
       setState(() {
-        outOfStockProductsCount = value.docs.length;
+
+        listOfOutOfStockProducts.clear();
+
+        for (var doc in product.docs)
+        {
+          Map item = doc.data();
+
+          String productID = item['StockCode'].toString();
+          String productPicture = item['Picture'].toString();
+          String productName = item['Name'].toString();
+          num productPrice = item['UnitPrice'];
+          num productRating = 3;
+          String productDescription = item['Description'].toString();
+          num totalQuantity = item['Quantity'];
+
+          listOfOutOfStockProducts.add(Product(
+            productID,
+            productPicture,
+            productName,
+            productPrice,
+            productRating,
+            productDescription,
+            0,
+            totalQuantity,
+          ));
+
+        }
+
+
       });
     });
 
 
-    return Material(
+    return isDataGenerated ?
+
+    Material(
 
         child: Scaffold(
           body: Container(
@@ -65,7 +160,11 @@ class _InventoryState extends State<Inventory>
             padding: const EdgeInsets.all(25),
             margin: const EdgeInsets.all(25),
 
-            child: Column(
+            child: Wrap(
+
+              direction: Axis.vertical,
+
+              spacing: 25,
 
               children: [
 
@@ -73,16 +172,13 @@ class _InventoryState extends State<Inventory>
 
                   onTap: ()
                   {
-                    listOfProducts.clear();
                     Navigator.push(context, MaterialPageRoute(builder: (context)
                     {
-                      return AllProducts(
-                        products : allProductsCollection,
-                      );
+                      return const AllProducts();
                     })).then((value) { setState(() {});});
                   },
 
-                  child: Text(totalProductsInInventoryCount.toString(), style: GoogleFonts.comfortaa(
+                  child: Text(listOfAllProducts.length.toString(), style: GoogleFonts.comfortaa(
                     color: Colors.blue,
                     fontWeight: FontWeight.w400,
                     fontSize: 100,
@@ -91,7 +187,7 @@ class _InventoryState extends State<Inventory>
 
                 const SizedBox(height: 20,),
 
-                Text("Total products in inventory", style: GoogleFonts.andikaNewBasic(
+                Text("Total products", style: GoogleFonts.andikaNewBasic(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
@@ -103,16 +199,14 @@ class _InventoryState extends State<Inventory>
 
                   onTap: ()
                   {
-                    listOfProducts.clear();
+                    listOfAllProducts.clear();
                     Navigator.push(context, MaterialPageRoute(builder: (context)
                     {
-                      return OutOfStockProducts(
-                        products : outOfStockProductsCollection,
-                      );
+                      return const OutOfStockProducts();
                     })).then((value) { setState(() {});});
                   },
 
-                  child: Text(outOfStockProductsCount.toString(), style: GoogleFonts.comfortaa(
+                  child: Text(listOfOutOfStockProducts.length.toString(), style: GoogleFonts.comfortaa(
                     color: Colors.blue,
                     fontWeight: FontWeight.w400,
                     fontSize: 100,
@@ -133,16 +227,13 @@ class _InventoryState extends State<Inventory>
 
                   onTap: ()
                   {
-                    listOfProducts.clear();
                     Navigator.push(context, MaterialPageRoute(builder: (context)
                     {
-                      return LowStockProducts(
-                        products : lowStockProductsCollection,
-                      );
+                      return const LowStockProducts();
                     })).then((value) { setState(() {});});
                   },
 
-                  child: Text(lowStockProductsCount.toString(), style: GoogleFonts.comfortaa(
+                  child: Text(listOfLowStockProducts.length.toString(), style: GoogleFonts.comfortaa(
                     color: Colors.blue,
                     fontWeight: FontWeight.w400,
                     fontSize: 100,
@@ -159,12 +250,146 @@ class _InventoryState extends State<Inventory>
 
                 const SizedBox(height: 20,),
 
+                InkWell(
+
+                  onTap: ()
+                  {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)
+                    {
+                      return const MostSoldProducts();
+                    })).then((value) { setState(() {});});
+                  },
+
+                  child: Text('Most', style: GoogleFonts.comfortaa(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 100,
+                  ),),
+                ),
+
+                const SizedBox(height: 20,),
+
+                Text("Most sold products", style: GoogleFonts.andikaNewBasic(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                ),),
+
+                const SizedBox(height: 20,),
+
+                InkWell(
+
+                  onTap: ()
+                  {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)
+                    {
+                      return const LeastSoldProducts();
+                    })).then((value) { setState(() {});});
+                  },
+
+                  child: Text('Least', style: GoogleFonts.comfortaa(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 100,
+                  ),),
+                ),
+
+                const SizedBox(height: 20,),
+
+                Text("Least sold products", style: GoogleFonts.andikaNewBasic(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                ),),
+
+                const SizedBox(height: 20,),
+
+                InkWell(
+
+                  onTap: ()
+                  {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)
+                    {
+                      return const UnsoldProducts();
+                    })).then((value) { setState(() {});});
+                  },
+
+                  child: Text('Unsold', style: GoogleFonts.comfortaa(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 100,
+                  ),),
+                ),
+
+                const SizedBox(height: 20,),
+
+                Text("Unsold products", style: GoogleFonts.andikaNewBasic(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                ),),
+
+                const SizedBox(height: 20,),
+
               ],
             ),
           ),
         ),
 
-    );
+    ) :
+
+    const Scaffold(body: Center(child: CircularProgressIndicator()));
+
   }
+
+  void generateData()
+  {
+    Map quantitySold = {};
+
+    var products = FirebaseFirestore
+        .instance
+        .collection('Transactions')
+        .where('InvoiceDate', isGreaterThan: 201012010826);
+
+    products.get().then((QuerySnapshot snapshot)
+    {
+      listOfMostSoldProducts.clear();
+      for (var doc in snapshot.docs)
+      {
+        Map item = doc.data()! as Map<String, dynamic>;
+
+        var productsPurchasedByCustomer = item['StockCode'].map((e) => e.toString()).toList();
+
+        for (var x in productsPurchasedByCustomer)
+        {
+          if (quantitySold.containsKey(x))
+          {
+            quantitySold[x] = quantitySold[x] + 1;
+          }
+          else
+          {
+            quantitySold[x] = 1;
+          }
+        }
+      }
+
+      for (var x in quantitySold.keys)
+      {
+
+        Product p = listOfAllProducts.singleWhere((element) => element.productID == x);
+        p.quantitySold = quantitySold[x];
+        listOfMostSoldProducts.add(p);
+
+      }
+
+      setState(() {
+        isDataGenerated = true;
+      });
+
+    });
+
+  }
+
+
 }
 
