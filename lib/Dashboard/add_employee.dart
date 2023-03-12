@@ -5,7 +5,7 @@ import 'package:validators/validators.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:motion_toast/motion_toast.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+//import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AddEmployee extends StatefulWidget {
   const AddEmployee({Key? key}) : super(key: key);
@@ -212,6 +212,7 @@ class _AddEmployeeState extends State<AddEmployee>
 
                                               child: Column(
                                                 children: [
+                                                  /*
                                                   SfDateRangePicker(
 
                                                     view: DateRangePickerView.month,
@@ -227,6 +228,8 @@ class _AddEmployeeState extends State<AddEmployee>
                                                       });
                                                     },
                                                   ),
+
+                                                   */
 
                                                   Align(
                                                     alignment: Alignment.centerRight,

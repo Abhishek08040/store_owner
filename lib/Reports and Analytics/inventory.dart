@@ -25,9 +25,6 @@ class _InventoryState extends State<Inventory>
   @override
   Widget build(BuildContext context)
   {
-    generateData();
-    listOfMostSoldProducts.sort((b, a) => a.quantitySold.compareTo(b.quantitySold));
-
     var allProductsCollection = FirebaseFirestore
         .instance
         .collection('Products');
@@ -66,14 +63,14 @@ class _InventoryState extends State<Inventory>
       });
     });
 
-    var lowStockProductsCollection = FirebaseFirestore
-        .instance
-        .collection('Products')
+    getListOProductsSold();
+    listOfMostSoldProducts.sort((b, a) => a.quantitySold.compareTo(b.quantitySold));
+
+    var lowStockProductsCollection = allProductsCollection
         .where('Quantity', isLessThanOrEqualTo: 10)
         .where('Quantity', isGreaterThan: 0);
 
-    lowStockProductsCollection.get().then((product)
-    {
+    lowStockProductsCollection.get().then((product) {
       setState(() {
 
         listOfLowStockProducts.clear();
@@ -108,9 +105,7 @@ class _InventoryState extends State<Inventory>
     });
 
 
-    var outOfStockProductsCollection = FirebaseFirestore
-        .instance
-        .collection('Products')
+    var outOfStockProductsCollection = allProductsCollection
         .where('Quantity', isEqualTo: 0);
 
     outOfStockProductsCollection.get()
@@ -152,9 +147,13 @@ class _InventoryState extends State<Inventory>
 
     return isDataGenerated ?
 
-    Material(
+    Scaffold(
 
-        child: Scaffold(
+        appBar: AppBar(
+          leading: BackButton(),
+        ),
+
+        body: Scaffold(
           body: Container(
 
             padding: const EdgeInsets.all(25),
@@ -164,7 +163,7 @@ class _InventoryState extends State<Inventory>
 
               direction: Axis.vertical,
 
-              spacing: 25,
+              spacing: 20,
 
               children: [
 
@@ -199,7 +198,6 @@ class _InventoryState extends State<Inventory>
 
                   onTap: ()
                   {
-                    listOfAllProducts.clear();
                     Navigator.push(context, MaterialPageRoute(builder: (context)
                     {
                       return const OutOfStockProducts();
@@ -232,6 +230,7 @@ class _InventoryState extends State<Inventory>
                       return const LowStockProducts();
                     })).then((value) { setState(() {});});
                   },
+
 
                   child: Text(listOfLowStockProducts.length.toString(), style: GoogleFonts.comfortaa(
                     color: Colors.blue,
@@ -314,7 +313,7 @@ class _InventoryState extends State<Inventory>
                     })).then((value) { setState(() {});});
                   },
 
-                  child: Text('Unsold', style: GoogleFonts.comfortaa(
+                  child: Text('Not sold', style: GoogleFonts.comfortaa(
                     color: Colors.blue,
                     fontWeight: FontWeight.w400,
                     fontSize: 100,
@@ -323,7 +322,7 @@ class _InventoryState extends State<Inventory>
 
                 const SizedBox(height: 20,),
 
-                Text("Unsold products", style: GoogleFonts.andikaNewBasic(
+                Text("Not sold products", style: GoogleFonts.andikaNewBasic(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
@@ -342,14 +341,15 @@ class _InventoryState extends State<Inventory>
 
   }
 
-  void generateData()
+  void getListOProductsSold()
   {
     Map quantitySold = {};
 
     var products = FirebaseFirestore
         .instance
         .collection('Transactions')
-        .where('InvoiceDate', isGreaterThan: 201012010826);
+        .where('InvoiceDate', isLessThanOrEqualTo: 201012010828)
+        .where('InvoiceDate', isGreaterThanOrEqualTo: 201012010826);
 
     products.get().then((QuerySnapshot snapshot)
     {

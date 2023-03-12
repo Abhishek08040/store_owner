@@ -15,7 +15,6 @@ class _NotSoldProductsState extends State<NotSoldProducts>
 {
   List<Product> listOfNotSoldProducts = [];
 
-
   @override
   Widget build(BuildContext context)
   {
@@ -25,11 +24,22 @@ class _NotSoldProductsState extends State<NotSoldProducts>
       productsPurchased.add(element.productID);
     }
 
-    listOfNotSoldProducts =
-        listOfAllProducts.filter((element) => !productsPurchased.contains(element.productID))
-    .toList();
+    List<String> productsNotPurchased = [];
 
+    for (var element in listOfAllProducts)
+    {
+      if (!productsPurchased.contains(element.productID))
+      {
+        productsNotPurchased.add(element.productID);
+      }
+    }
 
+    listOfNotSoldProducts.clear();
+    for (var element in productsNotPurchased)
+      {
+        listOfNotSoldProducts.add(listOfAllProducts.singleWhere((p) =>
+            p.productID == element));
+      }
 
     return Scaffold(
       body: listOfNotSoldProducts.isEmpty ?

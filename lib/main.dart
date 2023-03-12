@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:owner/Dashboard/add_employee.dart';
 import 'package:owner/Dashboard/show_employees_table.dart';
-import 'package:owner/Reports%20and%20Analytics/most_sold_products.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,29 +16,29 @@ void main() async
 {
 
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: const FirebaseOptions(
-  //       apiKey: "AIzaSyAJqMebJHcXRYo7tVwpjx8YmoNrBhmVxQs",
-  //       authDomain: "online-gift-store-bb0d8.firebaseapp.com",
-  //       projectId: "online-gift-store-bb0d8",
-  //       storageBucket: "online-gift-store-bb0d8.appspot.com",
-  //       messagingSenderId: "169940591133",
-  //       appId: "1:169940591133:web:89cca5795c0cee26865cf4",
-  //       measurementId: "G-PGRGZQ30G1"
-  //   )
-
-
- await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: const FirebaseOptions(
-        apiKey: "AIzaSyA5_Ls7_puwbff3XBtZrwXRZXOnoax4eF8",
-        authDomain: "online-gift-shop-project.firebaseapp.com",
-        databaseURL: "https://online-gift-shop-project-default-rtdb.firebaseio.com",
-        projectId: "online-gift-shop-project",
+        apiKey: "AIzaSyAJqMebJHcXRYo7tVwpjx8YmoNrBhmVxQs",
+        authDomain: "online-gift-store-bb0d8.firebaseapp.com",
+        projectId: "online-gift-store-bb0d8",
         storageBucket: "online-gift-store-bb0d8.appspot.com",
-        messagingSenderId: "318114597835",
-        appId: "1:318114597835:web:5809ff877b1fd47db0844e",
-        measurementId: "G-QNVHZ8M248"
+        messagingSenderId: "169940591133",
+        appId: "1:169940591133:web:89cca5795c0cee26865cf4",
+        measurementId: "G-PGRGZQ30G1"
     )
+
+
+ // await Firebase.initializeApp(
+ //    options: const FirebaseOptions(
+ //        apiKey: "AIzaSyA5_Ls7_puwbff3XBtZrwXRZXOnoax4eF8",
+ //        authDomain: "online-gift-shop-project.firebaseapp.com",
+ //        databaseURL: "https://online-gift-shop-project-default-rtdb.firebaseio.com",
+ //        projectId: "online-gift-shop-project",
+ //        storageBucket: "online-gift-store-bb0d8.appspot.com",
+ //        messagingSenderId: "318114597835",
+ //        appId: "1:318114597835:web:5809ff877b1fd47db0844e",
+ //        measurementId: "G-QNVHZ8M248"
+ //    )
 
   // await Firebase.initializeApp(
   //       options: const FirebaseOptions(

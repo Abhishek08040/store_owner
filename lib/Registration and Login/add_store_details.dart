@@ -11,7 +11,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:motion_toast/motion_toast.dart';
-
+import 'package:http/http.dart' as http;
 
 class AddStoreDetails extends StatefulWidget {
   const AddStoreDetails({Key? key}) : super(key: key);
@@ -40,19 +40,29 @@ class _Page1State extends State<Page1>
 {
   GlobalKey<FormState> _storeDetailsPage1 = GlobalKey<FormState>();
   TextEditingController _storeName = TextEditingController();
-  Uint8List storeLogo = new Uint8List(10);
+  Uint8List storeLogo = Uint8List(10);
 
   bool isImageLoaded = false;
 
   @override
   void initState()
   {
-    rootBundle.load('images/store_logo_default.png')
-        .then((data) => setState(()
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      http.Response response = await http.get(
+        Uri.parse('https://cdn-icons-png.flaticon.com/512/1040/1040254.png'),
+      );
+
+      if (response.bodyBytes.isNotEmpty)
+      {
+        storeLogo = response.bodyBytes;
+        setState(()
         {
-          this.storeLogo = data.buffer.asUint8List();
-          this.isImageLoaded = true;
-        }));
+          isImageLoaded = true;
+        });
+      }
+    });
   }
 
   @override
@@ -192,6 +202,7 @@ class _Page1State extends State<Page1>
 
     );
   }
+
 }
 
 

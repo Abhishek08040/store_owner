@@ -45,17 +45,17 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
             return Scaffold(
 
               appBar: AppBar(
-                leading: BackButton(),
+                leading: const BackButton(),
               ),
 
 
               body: DefaultTextStyle(
-                style: GoogleFonts.andikaNewBasic(textStyle: TextStyle(
+                style: GoogleFonts.andikaNewBasic(textStyle: const TextStyle(
                     color: Color(0xff403b58)),
                   fontSize: 20,
                   fontWeight: FontWeight.w300,
                 ),
-                child: Center(
+                child: const Center(
                   child: Text("No Employees Found!",
                   ),
                 ),
@@ -119,7 +119,7 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
               child: Scaffold(
 
                 appBar: AppBar(
-                  leading: BackButton(),
+                  leading: const BackButton(),
                 ),
 
                 body: SingleChildScrollView(
@@ -134,7 +134,7 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             width: 60,
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 12.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
                               alignment: Alignment.center,
                               child: const Text('No', overflow: TextOverflow.visible,
                                 style: TextStyle(color: Colors.white),),
@@ -144,9 +144,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             columnName: 'Profile\nPicture',
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Profile Picture', overflow: TextOverflow.visible,
+                              child: const Text('Profile Picture', overflow: TextOverflow.visible,
                                 style: TextStyle(color: Colors.white),),
                             )
                         ),
@@ -155,9 +155,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             width: 150,
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Name', overflow: TextOverflow.visible,
+                              child: const Text('Name', overflow: TextOverflow.visible,
                                 style: TextStyle(color: Colors.white),),
                             )
                         ),
@@ -165,9 +165,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             columnName: 'Gender',
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Gender', overflow: TextOverflow.visible,
+                              child: const Text('Gender', overflow: TextOverflow.visible,
                                 style: TextStyle(color: Colors.white),),
                             )
                         ),
@@ -175,9 +175,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             columnName: 'Designation',
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Designation', overflow: TextOverflow.visible,
+                              child: const Text('Designation', overflow: TextOverflow.visible,
                                   style: TextStyle(color: Colors.white)),
                             )
                         ),
@@ -185,9 +185,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             columnName: 'Joining Date',
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Joining Date', overflow: TextOverflow.visible,
+                              child: const Text('Joining Date', overflow: TextOverflow.visible,
                                   style: TextStyle(color: Colors.white)),
                             )
                         ),
@@ -195,9 +195,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             columnName: 'Email',
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Email', overflow: TextOverflow.visible,
+                              child: const Text('Email', overflow: TextOverflow.visible,
                                 style: TextStyle(color: Colors.white),),
                             )
                         ),
@@ -205,9 +205,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             columnName: 'Phone',
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Phone', overflow: TextOverflow.visible,
+                              child: const Text('Phone', overflow: TextOverflow.visible,
                                   style: TextStyle(color: Colors.white)),
                             )
                         ),
@@ -215,9 +215,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             columnName: 'Location',
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Location', overflow: TextOverflow.visible,
+                              child: const Text('Location', overflow: TextOverflow.visible,
                                   style: TextStyle(color: Colors.white)),
                             )
                         ),
@@ -225,9 +225,9 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
                             columnName: 'Salary',
                             label: Container(
                               color: const Color.fromARGB(255, 49, 175, 212),
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               alignment: Alignment.center,
-                              child: Text('Salary', overflow: TextOverflow.visible,
+                              child: const Text('Salary', overflow: TextOverflow.visible,
                                   style: TextStyle(color: Colors.white)),
                             )
                         ),
@@ -242,17 +242,17 @@ class _ShowEmployeesTableState extends State<ShowEmployeesTable>
           return Scaffold(
 
             appBar: AppBar(
-              leading: BackButton(),
+              leading: const BackButton(),
             ),
 
 
             body: DefaultTextStyle(
-              style: GoogleFonts.poppins(textStyle: TextStyle(
+              style: GoogleFonts.poppins(textStyle: const TextStyle(
                   color: Color(0xff403b58)),
                 fontSize: 32,
                 fontWeight: FontWeight.w300,
               ),
-              child: Center(
+              child: const Center(
                 child: Text("Error loading\nemployees!",
                 ),
               ),

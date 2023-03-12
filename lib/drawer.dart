@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class OwnerDrawer extends StatefulWidget
 {
-  OwnerDrawer({Key? key,}) : super(key: key);
+  const OwnerDrawer({Key? key,}) : super(key: key);
 
   @override
   State<OwnerDrawer> createState() => _OwnerDrawerState();
@@ -42,6 +42,10 @@ class _OwnerDrawerState extends State<OwnerDrawer>
         else if (index == 1)
           {
             Navigator.pushNamedAndRemoveUntil(context, "/supplier" , (Route route) => false);
+          }
+        else if (index == 4)
+          {
+            Navigator.pushNamedAndRemoveUntil(context, "/inventory" , (Route route) => false);
           }
       },
     );

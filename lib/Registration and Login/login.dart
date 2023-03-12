@@ -23,33 +23,33 @@ class _LoginState extends State<Login>
           builder: (BuildContext context, BoxConstraints constraints)
           {
             if (constraints.maxWidth < 600)
-              {
-                return Container(
-                  padding: const EdgeInsets.all(25),
-                  margin: const EdgeInsets.all(25),
-                  child: Wrap(
+            {
+              return Container(
+                padding: const EdgeInsets.all(25),
+                margin: const EdgeInsets.all(25),
+                child: Wrap(
 
-                    children: const [
-                      LoginCredentials(),
-                      GiftStorePicture(),
-                    ],
-                  ),
-                );
-              }
+                  children: const [
+                    LoginCredentials(),
+                    GiftStorePicture(),
+                  ],
+                ),
+              );
+            }
             else
-              {
-                return Container(
-                  padding: const EdgeInsets.all(25),
-                  margin: const EdgeInsets.all(25),
-                  child: Row(
+            {
+              return Container(
+                padding: const EdgeInsets.all(25),
+                margin: const EdgeInsets.all(25),
+                child: Row(
 
-                    children: [
-                      LoginCredentials(),
-                      GiftStorePicture(),
-                    ],
-                  ),
-                );
-              }
+                  children: [
+                    LoginCredentials(),
+                    GiftStorePicture(),
+                  ],
+                ),
+              );
+            }
 
           },
 
@@ -240,7 +240,7 @@ class _LoginCredentialsState extends State<LoginCredentials>
 
 
                   },
-                  icon: Image.asset('images/google_icon.png', height: 40, width: 40,),
+                  icon: Image.network('https://cdn-icons-png.flaticon.com/128/2504/2504914.png', height: 40, width: 40,),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                       Colors.pink,
@@ -279,7 +279,7 @@ class _GiftStorePictureState extends State<GiftStorePicture>
   Widget build(BuildContext context)
   {
     return Expanded(
-      child: Image.asset('images/background_image.jpg'),
+      child: Image.network('https://www.business2community.com/wp-content/uploads/2018/10/holiday-shopping-statistics-2018-presents.jpg'),
     );
   }
 }

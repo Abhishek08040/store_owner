@@ -11,6 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -51,13 +52,22 @@ class _Page1State extends State<Page1>
   @override
   void initState()
   {
+    super.initState();
 
-    rootBundle.load('images/display_photo.png')
-        .then((data) => setState(()
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      http.Response response = await http.get(
+        Uri.parse('https://cdn-icons-png.flaticon.com/128/3135/3135715.png'),
+      );
+      if (response.bodyBytes.isNotEmpty)
         {
-          this.display_photo = data.buffer.asUint8List();
-          this.isImageLoaded = true;
-        }));
+          display_photo = response.bodyBytes;
+          setState(()
+          {
+            isImageLoaded = true;
+          });
+        }
+    });
+
   }
 
   @override
@@ -266,7 +276,7 @@ class _Page1State extends State<Page1>
                                   {
                                     return "Please enter your contact number";
                                   }
-                                  else if (!RegExp(r'^([+0][1-9])?[0-9]{10,12}$').hasMatch(value))
+                                  else if (!RegExp(r'^([+0][1-9])?\d{10,12}$').hasMatch(value))
                                   {
                                     return "Please enter a valid contact number";
                                   }
@@ -321,6 +331,7 @@ class _Page1State extends State<Page1>
 
     );
   }
+
 }
 
 

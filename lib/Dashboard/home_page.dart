@@ -56,7 +56,6 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context)
   {
-
     FirebaseFirestore
         .instance
         .collection('Employees')
@@ -490,6 +489,7 @@ class _HomePageState extends State<HomePage>
                                               {
                                                 return "Please enter the staff name";
                                               }
+                                              return null;
                                             },
 
                                             decoration: InputDecoration(
@@ -783,7 +783,7 @@ class _HomePageState extends State<HomePage>
             ),
           ),
 
-          OwnerDrawer(),
+          const OwnerDrawer(),
 
         ]
       ),
