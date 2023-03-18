@@ -9,6 +9,8 @@ import 'Registration and Login/add_store_details.dart';
 import 'Registration and Login/login.dart';
 import 'Registration and Login/sign_up.dart';
 import 'Reports and Analytics/inventory.dart';
+import 'Staff/add_product.dart';
+import 'Staff/staff_home_page.dart';
 import 'Supplier/supplier_page.dart';
 
 
@@ -70,7 +72,7 @@ class MyApp extends StatelessWidget
   {
     return MaterialApp
       (
-      title: "Owner Page",
+      title: "Online Gift Shop",
 
       debugShowCheckedModeBanner: false,
 
@@ -94,6 +96,8 @@ class MyApp extends StatelessWidget
         '/employees': (context) => const ShowEmployeesTable(),
         '/add_an_employee': (context) => const AddEmployee(),
         '/inventory': (context) => const Inventory(),
+        '/staff_home_page': (context) => const StaffHomePage(),
+        '/staff_add_product': (context) => const StaffAddProduct(),
 
       },
 

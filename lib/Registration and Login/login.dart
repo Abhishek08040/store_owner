@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -171,7 +174,27 @@ class _LoginCredentialsState extends State<LoginCredentials>
                           snackbar.show(context);
                         });
 
-                        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+
+                        FirebaseFirestore
+                            .instance
+                            .collection('Employees')
+                            .where("Email",isEqualTo: _emailController.text)
+                            .get()
+                            .then((value)
+                            {
+                              String designation = value.docs.first['Designation'].toString() ?? 'Owner';
+
+                              if (designation == 'Owner')
+                              {
+                                Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                              }
+                              else if (designation=='Staff')
+                              {
+                                Navigator.pushNamedAndRemoveUntil(context, '/staff_home_page', (route) => false);
+                              }
+
+                            });
+
 
                       }
 
