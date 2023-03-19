@@ -17,6 +17,8 @@ class _OutOfStockProductsState extends State<OutOfStockProducts>
   Widget build(BuildContext context)
   {
     return Scaffold(
+      appBar: AppBar(leading: BackButton(),),
+
       body: listOfOutOfStockProducts.isEmpty ?
 
       Center(

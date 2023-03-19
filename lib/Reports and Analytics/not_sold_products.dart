@@ -42,6 +42,8 @@ class _NotSoldProductsState extends State<NotSoldProducts>
       }
 
     return Scaffold(
+      appBar: AppBar(leading: BackButton(),),
+
       body: listOfNotSoldProducts.isEmpty ?
 
       Center(

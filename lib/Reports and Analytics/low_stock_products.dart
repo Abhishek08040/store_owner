@@ -17,6 +17,8 @@ class _LowStockProductsState extends State<LowStockProducts>
   Widget build(BuildContext context)
   {
     return Scaffold(
+      appBar: AppBar(leading: BackButton(),),
+
       body: listOfLowStockProducts.isEmpty ?
 
       Center(

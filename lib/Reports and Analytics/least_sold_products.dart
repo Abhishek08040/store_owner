@@ -20,6 +20,8 @@ class _LeastSoldProductsState extends State<LeastSoldProducts>
     List<Product> listOfLeastSoldProducts = listOfMostSoldProducts.reversed.toList();
 
     return Scaffold(
+      appBar: AppBar(leading: BackButton(),),
+
       body: listOfLeastSoldProducts.isEmpty ?
 
       Center(

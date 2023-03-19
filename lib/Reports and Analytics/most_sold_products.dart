@@ -18,7 +18,10 @@ class _MostSoldProductsState extends State<MostSoldProducts>
   Widget build(BuildContext context)
   {
 
+    getListOProductsSold();
     return Scaffold(
+      appBar: AppBar(leading: BackButton(),),
+
       body: listOfMostSoldProducts.isEmpty ?
 
       Center(

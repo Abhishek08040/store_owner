@@ -645,6 +645,7 @@ class _Page2State extends State<Page2>
               "Name" : widget.name.text.toString(),
               "Profile Picture" : profilePictureURL.substring(0, profilePictureURL.length-43),
               "Gender" : widget.gender.text.toString(),
+              "Designation" : _designation.text.toString(),
               "Phone" : widget.phone.text.toString(),
               "Email" : _email.text.toString(),
               "Location" : _location.text.toString(),

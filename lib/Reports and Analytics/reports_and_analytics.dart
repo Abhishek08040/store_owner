@@ -10,14 +10,14 @@ import 'most_sold_products.dart';
 import 'out_of_stock_products.dart';
 
 
-class Inventory extends StatefulWidget {
-  const Inventory({Key? key}) : super(key: key);
+class ReportsAndAnalytics extends StatefulWidget {
+  const ReportsAndAnalytics({Key? key}) : super(key: key);
 
   @override
-  State<Inventory> createState() => _InventoryState();
+  State<ReportsAndAnalytics> createState() => _ReportsAndAnalyticsState();
 }
 
-class _InventoryState extends State<Inventory>
+class _ReportsAndAnalyticsState extends State<ReportsAndAnalytics>
 {
 
   bool isDataGenerated = false;

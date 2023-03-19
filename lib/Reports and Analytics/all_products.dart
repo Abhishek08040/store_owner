@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -17,7 +18,47 @@ class _AllProductsState extends State<AllProducts>
   @override
   Widget build(BuildContext context)
   {
+    var allProductsCollection = FirebaseFirestore
+        .instance
+        .collection('Products');
+
+    allProductsCollection.get().then((product)
+    {
+      setState(() {
+
+        listOfAllProducts.clear();
+
+        for (var doc in product.docs)
+        {
+          Map item = doc.data();
+
+          String productID = item['StockCode'].toString();
+          String productPicture = item['Picture'].toString();
+          String productName = item['Name'].toString();
+          num productPrice = item['UnitPrice'];
+          num productRating = 3;
+          String productDescription = item['Description'].toString();
+          num totalQuantity = item['Quantity'];
+
+          listOfAllProducts.add(Product(
+            productID,
+            productPicture,
+            productName,
+            productPrice,
+            productRating,
+            productDescription,
+            0,
+            totalQuantity,
+          ));
+
+        }
+
+      });
+    });
+
     return Scaffold(
+      appBar: AppBar(leading: BackButton(),),
+
       body: listOfAllProducts.isEmpty ?
 
       Center(
@@ -140,7 +181,6 @@ class _AllProductsState extends State<AllProducts>
       ),
 
     );
-
 
   }
 }

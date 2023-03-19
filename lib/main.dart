@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:owner/Dashboard/add_employee.dart';
 import 'package:owner/Dashboard/show_employees_table.dart';
+import 'package:owner/Reports%20and%20Analytics/reports_and_analytics_home.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,10 +9,9 @@ import 'Dashboard/home_page.dart';
 import 'Registration and Login/add_store_details.dart';
 import 'Registration and Login/login.dart';
 import 'Registration and Login/sign_up.dart';
-import 'Reports and Analytics/inventory.dart';
+import 'Reports and Analytics/all_products.dart';
 import 'Staff/add_product.dart';
 import 'Staff/staff_home_page.dart';
-import 'Supplier/supplier_page.dart';
 
 
 void main() async
@@ -54,6 +54,15 @@ void main() async
   //       )
 
 
+  // await Firebase.initializeApp(
+  //         options: const FirebaseOptions(
+  //             apiKey: "AIzaSyAv8M9938CatGDbe3_miuQQPXkmZ7tvP8I",
+  //             authDomain: "society-management-syste-b0697.firebaseapp.com",
+  //             projectId: "society-management-syste-b0697",
+  //             storageBucket: "society-management-syste-b0697.appspot.com",
+  //             messagingSenderId: "123067542423",
+  //             appId: "1:123067542423:web:fb9f7d02a35d6f988ff2d2"
+  //         )
 
   );
 
@@ -92,10 +101,10 @@ class MyApp extends StatelessWidget
         '/signup': (context) => const SignUp(),
         '/add_store_details': (context) => const AddStoreDetails(),
         '/home': (context) => const HomePage(),
-        '/supplier': (context) => const SupplierPage(),
         '/employees': (context) => const ShowEmployeesTable(),
         '/add_an_employee': (context) => const AddEmployee(),
-        '/inventory': (context) => const Inventory(),
+        '/analytics': (context) => const ReportsAndAnalyticsHome(),
+        '/inventory': (context) => const AllProducts(),
         '/staff_home_page': (context) => const StaffHomePage(),
         '/staff_add_product': (context) => const StaffAddProduct(),
 
